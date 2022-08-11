@@ -1,13 +1,27 @@
 const express = require("express");
-const multer = require("multer");
+import multer, { FileFilterCallback } from "multer";
 const app = express();
 const cors = require("cors");
-const timestamp = require("unix-timestamp");
+const path = require("path");
 const { storage } = require("./storage-multer");
 
 app.use(cors());
 
-const upload = multer({ storage });
+
+const upload = multer({
+  storage,
+  fileFilter: function (
+    req: Express.Request,
+    file: Express.Multer.File,
+    cb: FileFilterCallback
+  ) {
+    if (path.extname(file.originalname) !== ".txt") {
+      return cb(new Error("Only pdfs are allowed"));
+    }
+
+    cb(null, true);
+  },
+});
 
 const { postFunction } = require("./post-function");
 
