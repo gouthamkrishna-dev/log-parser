@@ -16,7 +16,7 @@ const upload = multer({
     cb: FileFilterCallback
   ) {
     if (path.extname(file.originalname) !== ".txt") {
-      return cb(new Error("Only pdfs are allowed"));
+      return cb(new Error("Only text files are allowed"));
     }
 
     cb(null, true);
