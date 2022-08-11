@@ -1,8 +1,10 @@
 export {};
 const fs = require("fs");
 const timestamp = require("unix-timestamp");
+import express, { Request, Response } from "express";
 let array = [];
-const postFunction = (req: any, res: any) => {
+
+const postFunction = (req: Request, res: Response) => {
   if (!req.file.originalname.includes("txt")) {
     res.status(400).json({
       status: "error",
@@ -14,6 +16,7 @@ const postFunction = (req: any, res: any) => {
     .toString();
   textFile.split("}").map((textFiles) => {
     const data = textFiles + "}";
+    
     if (!(data === "}")) {
       const { transactionId, details } = JSON.parse(
         ` ${data
